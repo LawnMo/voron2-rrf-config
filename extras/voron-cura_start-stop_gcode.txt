@@ -1,0 +1,15 @@
+START G-CODE
+
+; trick cura and let RRF handle temps
+M140 S0 ; set bed temp
+M190 S0 ; wait for bed temp
+M104 S0 ; preheat
+M109 S0 ; wait for nozzle print temp
+
+; pass temperatures to RRF
+M98 P"/sys/job-prologue.g" T{material_print_temperature} H{material_bed_temperature}
+
+
+STOP G-CODE
+
+M0 ; call stop.g

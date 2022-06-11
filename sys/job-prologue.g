@@ -1,3 +1,8 @@
+; job-prologue.g
+; call from your slicer's start-gcode
+; param : T = tool temperature / H = bed temperature
+;
+
 M98 R1
 
 if !exists(global.probe_block_detach)
@@ -13,10 +18,10 @@ G10 P0 S{param.T} R50; start preheat hotend_0
 M140 S{param.H} ; start preheating the bed
 M190 S{param.H}
 
-if param.H >= 100
-  while heat.heaters[0].avgPwm > 0.28
-    echo "Waiting for bed heater to settle"
-    G4 S60
+;if param.H >= 100
+;  while heat.heaters[0].avgPwm > 0.28
+;    echo "Waiting for bed heater to settle"
+;    G4 S60
 
 set global.probe_block_detach = true
 
@@ -44,7 +49,8 @@ G29
 
 M116 P0
 
-M98 P"k/clean-nozzle.g"
-G1 X297 Y150 Z1 F12000
-G1      Y50 Z{param.L} E30 F500 ;intro line
-G92 E0 ;zero the extruded length again
+;M98 P"k/clean-nozzle.g"
+G1 X349 Y354 F9000		; park
+G92 E0					; reset extruder pos
+G1 E3 F200				; prime extruder
+G92 E0					; reset extruder pos

@@ -1,0 +1,32 @@
+// Board Hardware configuration file for BTT Octopus Pro v1.0 F429
+
+board = biqoctopuspro_1.0; 
+
+//LED blinks to indicate Platform is spinning or other diagnostic 
+//Comment out or set to NoPin if not wanted.
+leds.diagnostic = A.13; 
+
+heat.tempSensePins = {bedtemp,e0temp}; //Max of 3 entries
+heat.spiTempSensorCSPins = {F.8, NoPin, NoPin, NoPin, NoPin, NoPin, NoPin, NoPin};
+
+//Fysetc MINI 12864
+lcd.encoderPinA=BTN_EN1
+lcd.encoderPinB=BTN_EN2
+lcd.encoderPinSw=BTN_ENC
+lcd.lcdCSPin=LCD_EN
+lcd.lcdDCPin=LCD_RS
+lcd.spiChannel=0
+//lcd.lcdBeepPin=NoPin
+
+//ESP RX/TX Settings
+8266wifi.serialRxTxPins = {D.9, D.8};
+serial.aux.rxTxPins = {NoPin, NoPin};
+
+//ESP Settings
+8266wifi.espDataReadyPin = D.7;
+8266wifi.TfrReadyPin = D.10;
+8266wifi.espResetPin = G.7;
+8266wifi.csPin = B.12;
+
+//TMC Smart Drivers
+stepper.numSmartDrivers = 7;

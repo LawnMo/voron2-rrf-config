@@ -1,11 +1,13 @@
-M220 S100 ; restore speed to 100%
-M221 S100 ; restore extrusion flow to 100%
+; cancel.g
+; called by M25 or from a screen
+;
 
-M106 P0 S0 ; layer fan off
-;G1 Y300 F18000
-;G1 E2 F3600 ; unretract filament from pause.g
-G1 E2 F3600 ; unretract previous amount before ramming
-G1 E5 F400
-G1 E-15 F3600
+M220 S100							; restore speed to 100%
+M221 S100							; restore extrusion flow to 100%
+M106 P0 S0							; layer fan off
 
-echo >>"job-history.csv" """" ^ job.lastFileName ^ """," ^ state.time ^ "," ^ job.lastDuration ^ ",0"
+M98 P"0:/sys/adv/park.g" X349 Y354	; park toolhead and bump Z +5mm
+
+M98 P"0:/sys/adv/turnoff.g" 		; turn off heaters
+
+;echo >>"job-history.csv" """" ^ job.lastFileName ^ """," ^ state.time ^ "," ^ job.lastDuration ^ ",0"

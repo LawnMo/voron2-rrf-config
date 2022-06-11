@@ -1,10 +1,8 @@
-G90
-G1 Z10 F2400
-M401
-G29 S2
-;G1 Z10 F2400
-;G1 X150 Y128 F18000
-;G92 Z15
-;G30 K0 Z-99999
-G29 S0
-M402
+; mesh creation
+
+G90				;
+G1 Z10 F2400	; move Z up
+M401			; deploy klicky
+G29 S2			; disable mesh bed compensation
+G29 S0			; probe and save mesh
+M402			; retract klicky

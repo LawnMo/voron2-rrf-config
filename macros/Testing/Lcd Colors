@@ -1,0 +1,3 @@
+M150 K0 R255 U0 B64 P255 S1 F1	; display led
+M150 K0 R255 U0 B0 P255 S1 F1	; left encoder led
+M150 K0 R255 U0 B0 P255 S1 F0	; right encoder led

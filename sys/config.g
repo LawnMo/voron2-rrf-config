@@ -1,143 +1,123 @@
+; Configuration file for BTT Octopus Pro v1.0 F429 (firmware version 3)
+; executed by the firmware on start-up
+;
+
+; ---------
 ; General preferences
-;M80 C"!pson"            ; pson
-G21                    	; Work in millimetres
-G90                     ; send absolute coordinates...
-M83                     ; ...but relative extruder moves
+; ---------
+G90														; send absolute coordinates...
+M83														; ...but relative extruder moves
+M550 P"Mr Garrison"										; set printer name
+M669 K1													; select CoreXY mode
 
-M669 K1                 ; select CoreXY mode
 
-; Limit axis				
-M564 S1 H1             	; Forbid axis movements when not homed
-
-; ================================== 
-; Fysetc 12864 display Color
-; ==================================
-
-M918 P2 C30 E-4 F1000000   	; Configure direct-connect display
-M150 X2 R255 U128 B255 P64 S1 F1
-M150 X2 R255 U0 B255 P64 S1 F1
-M150 X2 R200 U128 B255 P200 S1 F0
-
-; ================================== 
-; NETWORK
-; ==================================
-
+; ---------
 ; Network
-M550 P"Raven"          ; set printer name
-M552 S1                ; enable network
-M586 P0 S1             ; enable HTTP (for DWC)
-M586 P1 S0             ; disable FTP
-M586 P2 S0             ; disable Telnet
+; ---------
+M551 P"azerty"											; set password
+M552 S1													; enable network
+M586 P0 S1												; enable HTTP
+M586 P1 S0												; disable FTP
+M586 P2 S0												; disable Telnet
 
-; ================================== 
-; DRIVERS
-; ==================================
 
-M569 P0.0 S0 D3 V0
-M569 P0.1 S1 D3 V0
-M569 P0.2 S0 D3 V0
-M569 P0.3 S1 D3 V0
-M569 P0.4 S0 D2
-M569 P0.5 S0 D2
-M569 P0.6 S1 D2
+; ---------
+; Drives
+; ---------
+M569 P0 S0 D2											; physical drive 0 goes backwards using default driver timings
+M569 P1 S0 D2											; physical drive 1 goes forwards using default driver timings
+M569 P2 S0 D3 V0										; physical drive 2 goes backwards using default driver timings
+M569 P3 S1 D3 V0										; physical drive 3 goes forwards using default driver timings
+M569 P4 S0 D3 V0										; physical drive 4 goes backwards using default driver timings
+M569 P5 S1 D3 V0										; physical drive 5 goes forwards using default driver timings
+M569 P6 S0 D2											; physical drive 6 goes backwards using default driver timings
+M584 X0 Y1 Z2:3:4:5 E6									; set drive mapping
+M350 X16 Y16 Z16 E16 I1									; configure microstepping with interpolation
+M92 X80.00 Y80.00 Z400.00 E415.83						; set steps per mm
+M566 X450.00 Y450.00 Z60.00 E300.00						; set maximum instantaneous speed changes (mm/min)
+M203 X18000.00 Y18000.00 Z2400.00 E3600.00				; set maximum speeds (mm/min)
+M201 X5000.00 Y5000.00 Z100.00 E600.00					; set accelerations (mm/s^2)
+M201.1 X1000.00 Y1000.00 Z100.00 E250.00				; set homing accelerations (mm/s^2)
+M906 X1200 Y1200 Z1200 E500 I40							; set motor currents (mA) and motor idle factor in per cent
+M84 S30													; Set idle timeout
 
-M584 X0.4 Y0.5 Z0.0:0.1:0.2:0.3 E0.6
-M350 X16 Y16 Z16 E16 I1                          ; configure microstepping with interpolation
-M92 X160.00 Y160.00 Z400.00 E416.67                ; set steps per mm
+; Axis Limits
+M208 X0:350 Y0:355 Z0:330								; set axis limits
 
-; Accelerations and speeds
-M566 X450 Y450 Z240 E300        ; Set maximum instantaneous speed changes (mm/min) aka Jerk
-M203 X18000 Y18000 Z2400 E3600 ; Set maximum speeds (mm/min)
-M201 X5000 Y5000 Z350 E600     ; Set maximum accelerations (mm/s^2)
-M204 P4000 T5000                ; Set printing acceleration and travel accelerations
-
-; Stepper driver currents
-; set motor currents (mA) and motor idle factor in per cent
-; Drive currents
-M906 X1200 Y1200 Z1200 E500 I50 ; XYZ and E current
-M84 S30                        ; Idle timeout
-
-; ==================================
-; Endstops						
-; ==================================
-
+; ---------
 ; Endstops
-M574 X2 S1 P"^0.io1.in"
-M574 Y2 S1 P"^0.io1.out"
+; ---------
+M574 X2 S1 P"xstop"										; configure switch-type (e.g. microswitch) endstop for high end on X via pin xstop
+M574 Y2 S1 P"ystop"										; configure switch-type (e.g. microswitch) endstop for high end on Y via pin ystop
 
-; Axis travel limits
-M208 X0:299 Y0:308 Z0:281
+; ---------
+; Z-Probes
+; ---------
+M558 K0 P8 C"^e0stop" T18000 F600:180 H2 A10 S0.01		; set Z probe type to switch and the dive height + speeds
+G31 P500 X0 Y0 Z2.5										; set Z probe trigger value, offset and trigger height
+G31 K0 P500 X-2.5 Y24.5 Z7.77
 
-; Belt Locations
-M671 X-65:-65:365:365 Y0:395:395:0 S20      ; Define Z belts locations (Front_Left, Back_Left, Back_Right, Front_Right)
-											; Position of the bed leadscrews.. 4 Coordinates
-											; Snn Maximum correction to apply to each leadscrew in mm (optional, default 1.0)
-                                            ; S20 - 20 mm spacing
-M557 X30:270 Y30:270 P5                     ; Define bed mesh grid (inductive probe, positions include the Y offset!)
+M558 K1 P8 C"^zstop" T18000 F600:180 H1 A10 S0.005 R0	; Z endstop
+G31 K1 P500 X0 Y0 Z0									; for auto Z
 
-; ==================================
-; Bed heater
-; ==================================
-M308 S0 A"Bed Heater" P"temp0" Y"thermistor" T100000 B3950
-M950 H0 C"out0" Q24 T0
-M140 H0
-M143 H0 S120 ; 120C limit on bed
+M557 X30:320 Y30:320 P5									; define mesh grid
+M671 X-60:-60:410:410 Y-10:420:420:-10 S10.0			; Define Z belts locations (Front_Left, Back_Left, Back_Right, Front_Right)
 
-; ==================================
-; Hotend heater 
-; ==================================
-M308 S1 P"0.temp1" Y"pt1000" A"Nozzle"
-M950 H1 C"0.out1" T1
-M143 H1 S350 ; 350C limit on nozzle
+; ---------
+; Heaters
+; ---------
+M308 S0 P"bedtemp" Y"thermistor" T100000 B4092			; configure sensor 0 as thermistor on pin bedtemp
+M950 H0 C"e1heat" Q10 T0								; create bed heater output on e1heat and map it to sensor 0
+M307 H0 B0 S1.00										; disable bang-bang mode for the bed heater and set PWM limit
+M140 H0													; map heated bed to heater 0
+M143 H0 S115											; set temperature limit for heater 0 to 115C
+M143 H0 S115											; set temperature limit for heater 0 to 115C
+M308 S1 P"e0temp" Y"thermistor" T100000 B4092			; configure sensor 1 as thermistor on pin e0temp
+M950 H1 C"e0heat" T1									; create nozzle heater output on e0heat and map it to sensor 1
+M307 H1 B0 S1.00										; disable bang-bang mode for heater  and set PWM limit
+M143 H1 S290											; set temperature limit for heater 1 to 290C
 
-; ==================================
-; SENSORS MISC 
-; ==================================
+M308 S3 A"MCU" Y"mcu-temp"								; mcu temp for electronics fans
 
-M308 S3 A"MCU" Y"mcu-temp"
-
-; ==================================
-; CHAMBER SENSOR 
-; ==================================
-M308 S10 A"Chamber" P"0.temp2" Y"thermistor" T10000 B3950
-M950 H9 C"io6.in" Q1 T10
-M141 H9 ; fake chamber heater for reporting in DWC
-
-; ==================================
-; Z probes
-
-; quickdraw
-M558 K0 P8 C"^0.io0.in" T18000 F600:180 H2 A10 S0.01
-G31 K0 P500 X-2.5 Y24.5 Z7.061
-
-; nozzle probe
-M558 K1 P8 C"^0.io0.out" T18000 F1200:180 H1 A10 S0.005 R0
-G31 K1 P500 X0 Y0 Z0
-
-; =================================d
-=
+; ---------
 ; Fans
-; ==================================
-M950 F0 C"0.out6" Q32
-M106 P0 S0 H-1 C"Part Cooling"
+; ---------
+M950 F0 C"fan0" Q50										; create fan 0 on pin fan0 and set its frequency
+M106 P0 C"Part-Cooling Fan" S0 H-1						; set fan 0 value. Thermostatic control is turned off
 
-M950 F1 C"0.out5"
-M106 P1 S1 H1 T45 C"Hotend Cooling"
+M950 F1 C"fan1" Q50										; create fan 1 on pin fan1 and set its frequency
+M106 P1 C"Hotend Fan" S255 H1 T45						; set fan 1 value. Thermostatic control is turned on
 
-M950 F2 C"0.out4" Q32
-M106 P2 X0.6 H3 L0.5 T35 C"Electronics Fan" 
+M950 F2 C"fan2" Q32										; create fan 2 on pin fan2 and set its frequency
+M106 P2 C"Motherboard Fan" L0.3 X0.5 H3 T35				; set fan 2 value. Thermostatic control is turned on
 
-M950 F3 C"0.out3" Q32
-M106 P3 H10 T55:70 L0.2 C"Chamber Exhaust"
+M950 F3 C"fan3" Q32										; create fan 3 on pin fan3 and set its frequency
+M106 P3 C"PSU Fan" L0.3 X0.5 H3 T35 					; set fan 3 value. Thermostatic control is turned on
 
-M950 F4 C"0.out2" Q32
-M106 P4 H-1 T55 C"Nevermore" ; potential thermostatic control when ABS is loaded
+; ---------
+; 12864
+; ---------
+M98 P"screen.g"											; load screen and leds init
 
+; ---------
+; LEDS
+; ---------
+
+; strip 0 is defined in screen.g
+
+M950 E1 C"B.0"											; create strip 1 on pin B.0 and set it to RGB
+M150 K1 R255 U255 B255 P128								; set strip 1 to white by default
+
+; ---------
 ; Tools
-M563 P0 D0 H1                                    ; define tool 0
-G10 P0 X0 Y0 Z0                                  ; set tool 0 axis offsets
-G10 P0 R0 S0                                     ; set initial tool 0 active and standby temperatures to 0C
+; ---------
+M563 P0 D0 H1											; define tool 0
+G10 P0 X0 Y0 Z0											; set tool 0 axis offsets
+G10 P0 R0 S0											; set initial tool 0 active and standby temperatures to 0C
 
-M912 P0 S-8.9 ; calibrate mcu temperature offset
 
-M501
+; ---------
+; Miscellaneous
+; ---------
+M501													; load saved parameters from non-volatile memory
+T0														; select first tool

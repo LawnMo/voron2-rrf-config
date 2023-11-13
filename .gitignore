@@ -1,0 +1,6 @@
+.rrf_mirror
+config-override.g
+eventlog.txt
+heightmap.csv
+config.g.bak
+sys/*.json

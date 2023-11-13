@@ -4,7 +4,7 @@
 
 M561
 G90
-G1 Z10 F2400
+G1 Z15 F2400
 M401
 
 while iterations < 10

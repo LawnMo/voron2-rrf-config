@@ -14,7 +14,7 @@ M669 K1													; select CoreXY mode
 ; ---------
 ; Network
 ; ---------
-M551 P"azerty"											; set password
+;M551 P"azerty"											; set password
 M552 S1													; enable network
 M586 P0 S1												; enable HTTP
 M586 P1 S0												; disable FTP
@@ -34,9 +34,9 @@ M569 P6 S0 D2											; physical drive 6 goes backwards using default driver t
 M584 X0 Y1 Z2:3:4:5 E6									; set drive mapping
 M350 X16 Y16 Z16 E16 I1									; configure microstepping with interpolation
 M92 X80.00 Y80.00 Z400.00 E415.83						; set steps per mm
-M566 X450.00 Y450.00 Z60.00 E300.00						; set maximum instantaneous speed changes (mm/min)
-M203 X18000.00 Y18000.00 Z2400.00 E3600.00				; set maximum speeds (mm/min)
-M201 X5000.00 Y5000.00 Z100.00 E600.00					; set accelerations (mm/s^2)
+M566 X600.00 Y600.00 Z240.00 E600.00					; set maximum instantaneous speed changes (mm/min)
+M203 X18000.00 Y18000.00 Z2400.00 E5000.00				; set maximum speeds (mm/min)
+M201 X5000.00 Y5000.00 Z120.00 E3200.00					; set accelerations (mm/s^2)
 M201.1 X1000.00 Y1000.00 Z100.00 E250.00				; set homing accelerations (mm/s^2)
 M906 X1200 Y1200 Z1200 E500 I40							; set motor currents (mA) and motor idle factor in per cent
 M84 S30													; Set idle timeout
@@ -89,10 +89,21 @@ M950 F1 C"fan1" Q50										; create fan 1 on pin fan1 and set its frequency
 M106 P1 C"Hotend Fan" S255 H1 T45						; set fan 1 value. Thermostatic control is turned on
 
 M950 F2 C"fan2" Q32										; create fan 2 on pin fan2 and set its frequency
-M106 P2 C"Motherboard Fan" L0.3 X0.5 H3 T35				; set fan 2 value. Thermostatic control is turned on
+M106 P2 C"Motherboard Fan" L0.3 X0.45 H3 T35				; set fan 2 value. Thermostatic control is turned on
 
 M950 F3 C"fan3" Q32										; create fan 3 on pin fan3 and set its frequency
-M106 P3 C"PSU Fan" L0.3 X0.5 H3 T35 					; set fan 3 value. Thermostatic control is turned on
+M106 P3 C"PSU Fan" L0.3 X0.45 H3 T35 					; set fan 3 value. Thermostatic control is turned on
+
+M950 F4 C"fan4" Q32										; create fan 4 on pin fan4 and set its frequency
+M106 P4 C"Extraction Fan" L0.3 X0.45 H3 T35				; set fan 4 value. Thermostatic control is turned on
+
+M950 F5 C"fan5" Q50										; create fan 0 on pin fan0 and set its frequency
+M106 P5 C"Nevermore" S0 H-1								; set fan 0 value. Thermostatic control is turned off
+; ---------
+; dht22
+; ---------
+M308 S10 P"B.8" Y"dht22" A"Chbr Temp[C]"
+M308 S11 P"S10.1" Y"dhthumidity" A"Chbr Hum[%]"
 
 ; ---------
 ; 12864
@@ -105,8 +116,11 @@ M98 P"screen.g"											; load screen and leds init
 
 ; strip 0 is defined in screen.g
 
-M950 E1 C"B.0"											; create strip 1 on pin B.0 and set it to RGB
-M150 K1 R255 U255 B255 P128								; set strip 1 to white by default
+M950 E1 C"B.0" T1										; create strip 1 on pin B.0 and set it to RGB
+M150 E1 R255 U255 B255 P128	S24							; set strip 1 to white by default - 24 leds total
+
+; yoloccelerometer
+M593 P"zvdd" F38 S0.1
 
 ; ---------
 ; Tools

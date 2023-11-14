@@ -7,6 +7,9 @@ M221 S100							; restore extrusion flow to 100%
 
 M106 P0 S0							; layer fan off
 
-M98 P"0:/sys/adv/park.g" X349 Y177.5; park toolhead and bump Z +5mm
+G1 Z{move.axes[2].machinePosition+5} F4800 ; move Z up a bit
 
-M98 P"0:/sys/adv/turnoff.g" 		; turn off heaters
+; turn off heaters
+G10 P0 S-273.1	; turn off T0
+M144
+M140 S-273.1	; turn off bed heater

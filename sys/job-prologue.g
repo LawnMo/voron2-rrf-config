@@ -1,6 +1,6 @@
 ; job-prologue.g
 ; call from your slicer's start-gcode
-; param : T = tool temperature / H = bed temperature
+; param : S = standy tool temperature / T = tool temperature / H = bed temperature
 ;
 
 M98 R1
@@ -14,7 +14,7 @@ G90 ;absolute positioning
 M83 ;relative extrusion
 M107 ;start with the fan off
 G92 E0 ;zero the extruded length
-;G10 P0 S{param.T} R50; start preheat hotend_0
+G10 P0 S{param.S} R{param.S}; preheat hotend_0 to standby temp
 M140 S{param.H} ; start preheating the bed
 M190 S{param.H}
 
@@ -25,10 +25,8 @@ M190 S{param.H}
 
 set global.probe_block_detach = true
 
-var need_g32 = false
-
+; check axis home all or just Z already homed
 if !move.axes[0].homed || !move.axes[1].homed || !move.axes[2].homed
-  set var.need_g32 = true
   G28
   if result != 0
     abort "Homing failed"
@@ -37,23 +35,22 @@ else
   if result != 0
     abort "Homing failed"
 
-if var.need_g32
-  G32
-  if result != 0
-    abort "QGL failed"
+
+G32						; QGL
+if result != 0
+  abort "QGL failed"
 
 set global.probe_block_detach = false
 
-G10 P0 S{param.T} R50; start preheat hotend_0
 
-if var.need_g32
-  G29
-M402
-
+G29						; MBL
+M402					; retract probe
 if result != 0
   abort "Mesh failed"
 
-M116 P0
+
+G10 P0 S{param.T} R{param.S}; heat hotend_0 to print temp
+M116 P0					; wait for hotend_0 to reach temp
 
 G1 X349 Y354 F9000		; park
 G92 E0					; reset extruder pos

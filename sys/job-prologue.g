@@ -1,7 +1,11 @@
-; job-prologue.g
-; call from your slicer's start-gcode
-; param : S = standy tool temperature / T = tool temperature / H = bed temperature
-;
+; job-prologue.g - call from your slicer's start-gcode
+; When using a macro as custom gcode, do not use G, M, N or T as parameters in a custom 'G' gcode file
+; param.A is the first layer bed temperature
+; param.B is filament type
+; param.C is first layer temperature
+; param.D is the filament standby temperature
+; param.E is the nozzle diameter the model was sliced for
+
 
 M98 R1
 
@@ -14,9 +18,9 @@ G90 ;absolute positioning
 M83 ;relative extrusion
 M107 ;start with the fan off
 G92 E0 ;zero the extruded length
-G10 P0 S{param.S} R{param.S}; preheat hotend_0 to standby temp
-M140 S{param.H} ; start preheating the bed
-M190 S{param.H}
+G10 P0 S{param.D} R{param.D}; preheat hotend_0 to standby temp
+M140 S{param.A} ; start preheating the bed
+M190 S{param.A}
 
 ;if param.H >= 100
 ;  while heat.heaters[0].avgPwm > 0.28
@@ -49,7 +53,7 @@ if result != 0
   abort "Mesh failed"
 
 
-G10 P0 S{param.T} R{param.S}; heat hotend_0 to print temp
+G10 P0 S{param.A} R{param.D}; heat hotend_0 to print temp
 M116 P0					; wait for hotend_0 to reach temp
 
 G1 X349 Y354 F9000		; park

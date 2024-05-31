@@ -29,4 +29,8 @@ serial.aux.rxTxPins = {NoPin, NoPin};
 8266wifi.csPin = B.12;
 
 //TMC Smart Drivers
-stepper.numSmartDrivers = 7;
+stepper.numSmartDrivers = 6;
+
+//CAN-FD Interface
+can.csPin = PD_3
+can.spiChannel = 2

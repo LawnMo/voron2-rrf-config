@@ -13,7 +13,7 @@ G91
 G1 Y10 X-10 H2 F9000	; move Y forward to avoid the probe dock
 ;G1 Y-10 H2 F2400
 
-G1 X355 F9000 H1		; Move quickly to X axis endstop (1st pass)
+G1 X355 F6000 H1		; Move quickly to X axis endstop (1st pass)
 ;M119
 G1 X-5 F18000			; Go back a few mm
 G1 X10 F360 H1			; Move slowly to X axis endstop (2nd pass)

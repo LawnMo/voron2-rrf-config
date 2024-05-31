@@ -10,7 +10,7 @@ if !move.axes[0].homed
 	G90
 
 G91
-G1 Y365 F9000 H1	; Move quickly to Y axis endstop (1st pass)
+G1 Y365 F6000 H1	; Move quickly to Y axis endstop (1st pass)
 G1 Y-5 F18000		; Go back a few mm
 G1 Y10 F360 H1		; Move slowly to Y axis endstop (2nd pass)
 G1 Y-1 F1000		; Move away from endstop

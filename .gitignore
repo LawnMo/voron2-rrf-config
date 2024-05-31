@@ -1,9 +1,10 @@
 .rrf_mirror
 .rrf_mirror-journal
+config.g.bak
 config-override.g
 eventlog.txt
 heightmap.csv
-config.g.bak
 sys/*.json
 sys/accelerometer/
 sys/filaments.csv
+sys/resurrect.g

@@ -6,7 +6,7 @@ M190 S0 ; wait for bed temp
 M104 S0 ; preheat
 M109 S0 ; wait for nozzle print temp
 
-; pass temperatures to RRF
+; pass parameters to RRF
 M98 P"/sys/job-prologue.g" A{material_bed_temperature_layer_0} B"{material_type}" C{material_print_temperature_layer_0} D{material_standby_temperature} E{machine_nozzle_size} "
 
 

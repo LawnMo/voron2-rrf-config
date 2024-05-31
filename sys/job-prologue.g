@@ -13,6 +13,12 @@ if !exists(global.probe_block_detach)
   global probe_block_detach = false
 set global.probe_block_detach = false
 
+if exists(param.B)
+  M701 S{param.B}
+  M703
+else
+  echo "filament type is undefined"
+
 G21 ;metric values
 G90 ;absolute positioning
 M83 ;relative extrusion

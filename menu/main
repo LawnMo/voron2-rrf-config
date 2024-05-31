@@ -49,7 +49,7 @@ value R26 C20 N80 W20 H2
 text T"°"
 value N0 C50 W20 H2
 text T"°"
-value C80 N90 W20 H2
+value C80 N{sensors.analog[10].lastReading} W20 H2
 text T"°"
 
 ; Babystepping

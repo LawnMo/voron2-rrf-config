@@ -1,4 +1,5 @@
 .rrf_mirror
+.rrf_mirror-journal
 config-override.g
 eventlog.txt
 heightmap.csv

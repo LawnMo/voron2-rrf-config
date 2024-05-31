@@ -5,3 +5,4 @@ eventlog.txt
 heightmap.csv
 config.g.bak
 sys/*.json
+sys/accelerometer/

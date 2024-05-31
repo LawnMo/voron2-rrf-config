@@ -14,6 +14,7 @@ if !exists(global.probe_block_detach)
 set global.probe_block_detach = false
 
 if exists(param.B)
+  M702
   M701 S{param.B}
   M703
 else

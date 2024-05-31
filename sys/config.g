@@ -122,6 +122,9 @@ M150 E1 R255 U255 B255 P128	S24							; set strip 1 to white by default - 24 led
 ; yoloccelerometer
 M593 P"zvdd" F38 S0.1
 
+; pressure advance
+M572 D0 S0.048
+
 ; ---------
 ; Tools
 ; ---------

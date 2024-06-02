@@ -54,8 +54,7 @@ M574 Y2 S1 P"ystop"										; configure switch-type (e.g. microswitch) endstop 
 ; Z-Probes
 ; ---------
 M558 K0 P8 C"^124.io0.in" T18000 F600:180 H2 A10 S0.01	; set Z probe type to switch and the dive height + speeds
-G31 P500 X0 Y0 Z2.5										; set Z probe trigger value, offset and trigger height
-G31 K0 P500 X-2.5 Y24.5 Z6.25
+G31 K0 P500 X-2.5 Y24.5 Z6.20                           ; set Z probe trigger value, offset and trigger height
 
 M558 K1 P8 C"^zstop" T18000 F600:180 H1 A10 S0.005 R0	; Z endstop
 G31 K1 P500 X0 Y0 Z0									; for auto Z

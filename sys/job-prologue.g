@@ -60,7 +60,7 @@ if result != 0
   abort "Mesh failed"
 
 
-G10 P0 S{param.A} R{param.D}; heat hotend_0 to print temp
+G10 P0 S{param.C} R{param.D}; heat hotend_0 to print temp
 M116 P0					; wait for hotend_0 to reach temp
 
 G1 X349 Y354 F9000		; park

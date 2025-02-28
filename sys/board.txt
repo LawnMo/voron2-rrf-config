@@ -19,14 +19,16 @@ lcd.spiChannel=0
 //lcd.lcdBeepPin=NoPin
 
 //ESP RX/TX Settings
-8266wifi.serialRxTxPins = {D.9, D.8};
+wifi.serialRxTxPins = {D.9, D.8};
 serial.aux.rxTxPins = {NoPin, NoPin};
 
 //ESP Settings
-8266wifi.espDataReadyPin = D.7;
-8266wifi.TfrReadyPin = D.10;
-8266wifi.espResetPin = G.7;
-8266wifi.csPin = B.12;
+wifi.moduleType = esp32;
+wifi.clockReg = 8194;
+wifi.espDataReadyPin = D.7;
+wifi.TfrReadyPin = D.10;
+wifi.espResetPin = G.7;
+wifi.csPin = B.12;
 
 //TMC Smart Drivers
 stepper.numSmartDrivers = 6;

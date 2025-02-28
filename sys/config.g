@@ -9,7 +9,7 @@ G90														; send absolute coordinates...
 M83														; ...but relative extruder moves
 M550 P"Mr Garrison"										; set printer name
 M669 K1													; select CoreXY mode
-
+G4 S2
 
 ; ---------
 ; Network
@@ -18,7 +18,7 @@ M669 K1													; select CoreXY mode
 M552 S1													; enable network
 M586 P0 S1												; enable HTTP
 M586 P1 S0												; disable FTP
-M586 P2 S0												; disable Telnet
+;M586 P2 S0												; disable Telnet
 
 
 ; ---------
@@ -54,7 +54,7 @@ M574 Y2 S1 P"ystop"										; configure switch-type (e.g. microswitch) endstop 
 ; Z-Probes
 ; ---------
 M558 K0 P8 C"^124.io0.in" T18000 F600:180 H2 A10 S0.01	; set Z probe type to switch and the dive height + speeds
-G31 K0 P500 X-2.5 Y24.5 Z6.20                           ; set Z probe trigger value, offset and trigger height
+G31 K0 P500 X-2.5 Y24.5 Z6.2                            ; set Z probe trigger value, offset and trigger height
 
 M558 K1 P8 C"^zstop" T18000 F600:180 H1 A10 S0.005 R0	; Z endstop
 G31 K1 P500 X0 Y0 Z0									; for auto Z
@@ -81,11 +81,11 @@ M308 S3 A"MCU" Y"mcu-temp"								; mcu temp for electronics fans
 ; Fans
 ; ---------
 
-M950 F0 C"124.out1" Q50									; create fan 0 on pin fan1 and set its frequency
-M106 P0 C"Hotend Fan" S255 H1 T45						; set fan 0 value. Thermostatic control is turned on
+M950 F0 C"124.out2" Q50									; create fan 0 on pin fan0 and set its frequency
+M106 P0 C"Part-Cooling Fan" S0 H-1						; set fan 0 value. Thermostatic control is turned off
 
-M950 F1 C"124.out2" Q50									; create fan 1 on pin fan0 and set its frequency
-M106 P1 C"Part-Cooling Fan" S0 H-1						; set fan 1 value. Thermostatic control is turned off
+M950 F1 C"124.out1" Q50									; create fan 1 on pin fan1 and set its frequency
+M106 P1 C"Hotend Fan" S255 H1 T45						; set fan 1 value. Thermostatic control is turned on
 
 M950 F2 C"fan2" Q50										; create fan 2 on pin fan2 and set its frequency
 M106 P2 C"Motherboard Fan" X0.45 H3 T40				    ; set fan 2 value. Thermostatic control is turned on

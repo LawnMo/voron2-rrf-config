@@ -7,6 +7,9 @@ M221 S100							; restore extrusion flow to 100%
 
 M106 P0 S0							; layer fan off
 
+M83                                 ; relative extruder moves
+G1 E-1 F3600						; retract 1mm before parking
+
 G1 Z{move.axes[2].machinePosition+5} F4800 ; move Z up a bit
 
 ; unload filament config
